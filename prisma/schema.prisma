@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cafe{
+  id            Int             @id @default(autoincrement())
+  nama          String
+  detail        Detail?
+  sosialMedia   SosialMedia[]
+}
+
+model Detail{
+  cafe            Cafe          @relation(fields: [idCafe], references: [id])
+  idCafe          Int           @id
+  fotoCafe        String?
+  lokasiCafe      String?
+  deskripsiCafe   String?
+}
+
+model SosialMedia{
+  idSosmed        Int           @id @default(autoincrement())
+  cafe            Cafe          @relation(fields: [idCafe], references: [id])
+  idCafe          Int
+  namaSosmed      String
+  username        String
+}
